@@ -8,8 +8,9 @@
 
 import UIKit
 
-// TODO : ui img on detail
-//        fav sort
+// TODO : ui img on detail img is over top of phone
+//        fav sort is get sort from mobile list but still sort by it self
+//        place holder img
 
 class ViewController: UIViewController {
     
@@ -272,24 +273,33 @@ extension ViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return true
-//        if segmentState == 0 {
-//            return false
-//        } else {
-//            return true
-//        }
+//        return true
+        if segmentState == 0 {
+            return false
+        } else {
+            return true
+        }
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            if segmentState == 0 {
-                mobileList.remove(at: indexPath.row)
-                tableView.deleteRows(at: [indexPath], with: .fade)
-            } else {
-                favList.remove(at: indexPath.row)
-                mobileList[indexPath.row].isFavourite = !mobileList[indexPath.row].isFavourite!
-                tableView.deleteRows(at: [indexPath], with: .fade)
+//            favList.remove(at: indexPath.row)
+            let favId = favList.remove(at: indexPath.row).id
+            for i in 0...mobileList.count - 1{
+                if mobileList[i].id == favId {
+                    mobileList[i].isFavourite = !mobileList[i].isFavourite!
+                }
             }
+//            mobileList[indexPath.row].isFavourite = !mobileList[indexPath.row].isFavourite!
+            tableView.deleteRows(at: [indexPath], with: .fade)
+//            if segmentState == 0 {
+//                mobileList.remove(at: indexPath.row)
+//                tableView.deleteRows(at: [indexPath], with: .fade)
+//            } else {
+//                favList.remove(at: indexPath.row)
+//                mobileList[indexPath.row].isFavourite = !mobileList[indexPath.row].isFavourite!
+//                tableView.deleteRows(at: [indexPath], with: .fade)
+//            }
             
         }
     }
