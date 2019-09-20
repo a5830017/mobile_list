@@ -25,8 +25,8 @@ class APIManager {
                         print(mobile)
                         completion(mobile)
                     } catch (let error) { // get error
-                        print(error)
-                        print("parse JSON failed------")
+                        print("parse JSON failed \(error)")
+//                        print("parse JSON failed------")
                     }
                 }
             }
@@ -51,7 +51,7 @@ class APIManager {
                         completion(mobile)
                     } catch (let error) { // get error
                         print(error)
-                        print("parse JSON failed------")
+                        print("parse JSON failed \(error)")
                     }
                 }
             }

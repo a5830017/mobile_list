@@ -8,9 +8,9 @@
 
 import UIKit
 
-// TODO : ui img on detail img is over top of phone
+// TODO :
+//        ui img on detail img is over top of phone
 //        fav sort is get sort from mobile list but still sort by it self
-//        place holder img
 
 class ViewController: UIViewController {
     
@@ -21,8 +21,10 @@ class ViewController: UIViewController {
     var segmentState : Int = 0
     
     @IBOutlet weak var tableViewMobileList : UITableView!
-    @IBOutlet weak var segmentControl: UISegmentedControl!
     @IBOutlet weak var sortButton: UIButton!
+    @IBOutlet weak var segmentControl: UISegmentedControl!
+    
+    
     
     @IBAction func tapSortButton(_ sender: Any) {
         
@@ -41,10 +43,10 @@ class ViewController: UIViewController {
             self.sortRating()
             self.tableViewMobileList.reloadData()
         }))
-//        alertController.addAction(UIAlertAction(title: "Default", style: .default, handler: { action in
-//            self.sortDefault()
-//            self.tableViewMobileList.reloadData()
-//        }))
+        //        alertController.addAction(UIAlertAction(title: "Default", style: .default, handler: { action in
+        //            self.sortDefault()
+        //            self.tableViewMobileList.reloadData()
+        //        }))
         //alertController.addAction(UIAlertAction(title: "1", style: .default))
         //alertController.addAction(UIAlertAction(title: "2", style: .default))
         //alertController.addAction(UIAlertAction(title: "3", style: .default))
@@ -53,16 +55,15 @@ class ViewController: UIViewController {
         self.present(alertController, animated: true, completion: nil)
     }
     
-    
-    
     @IBAction func tabChange(_ sender: UISegmentedControl) {
+        
         switch(sender.selectedSegmentIndex) {
         case 0:
             // set all mobileList
             segmentState = 0
             //            mobileList = allMobileList
             //print("show mobile list : \(mobileList)")
-            print("ALL")
+            //            print("ALL")
             //             reloadTable
             tableViewMobileList.reloadData()
             
@@ -72,7 +73,7 @@ class ViewController: UIViewController {
             //            print("show mobile list : \(mobileList)")
             // filter favorite data
             segmentState = 1
-            print("favourite")
+            //            print("favourite")
             filterFav()
             // reloadTable
             tableViewMobileList.reloadData()
@@ -86,6 +87,18 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        segmentControl.backgroundColor = .clear
+        segmentControl.tintColor = .clear
+        
+        segmentControl.setTitleTextAttributes([
+            NSAttributedString.Key.foregroundColor: UIColor.lightGray
+            ], for: .normal)
+        
+        segmentControl.setTitleTextAttributes([
+            NSAttributedString.Key.foregroundColor: UIColor.black
+            ], for: .selected)
+        
         // Do any additional setup after loading the view.
         APIManager().getMobile(url: url) { [weak self] (item) in
             DispatchQueue.main.sync {
@@ -109,6 +122,7 @@ class ViewController: UIViewController {
         }
         tableViewMobileList.rowHeight = UITableView.automaticDimension
         tableViewMobileList.estimatedRowHeight = 600
+        //        segmentControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.black], for: UIControl.State.selected)
     }
     
     override func didReceiveMemoryWarning() {
@@ -127,7 +141,7 @@ class ViewController: UIViewController {
         
         favList = mobileList.filter { $0.isFavourite! == true }
         
-        print("show favList : \(favList)")
+        //        print("show favList : \(favList)")
         
         //        print("show mobileList : \(mobileList)")
         
@@ -243,23 +257,23 @@ extension ViewController: UITableViewDataSource {
         return cell
     }
     
-//    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-//        return true
-//    }
-//
-//    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-//        if (editingStyle == .delete) {
-//            // handle delete (by removing the data from your array and updating the tableview)
-//            if(segmentState == 0){
-//                mobileList.remove(at: indexPath.row)
-//            } else {
-//                favList.remove(at: indexPath.row)
-//            }
-//        }
-//        tableViewMobileList.reloadData()
-//    }
+    //    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+    //        return true
+    //    }
+    //
+    //    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+    //        if (editingStyle == .delete) {
+    //            // handle delete (by removing the data from your array and updating the tableview)
+    //            if(segmentState == 0){
+    //                mobileList.remove(at: indexPath.row)
+    //            } else {
+    //                favList.remove(at: indexPath.row)
+    //            }
+    //        }
+    //        tableViewMobileList.reloadData()
+    //    }
     
-
+    
 }
 
 
@@ -273,7 +287,7 @@ extension ViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-//        return true
+        //        return true
         if segmentState == 0 {
             return false
         } else {
@@ -283,23 +297,23 @@ extension ViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-//            favList.remove(at: indexPath.row)
+            //            favList.remove(at: indexPath.row)
             let favId = favList.remove(at: indexPath.row).id
             for i in 0...mobileList.count - 1{
                 if mobileList[i].id == favId {
                     mobileList[i].isFavourite = !mobileList[i].isFavourite!
                 }
             }
-//            mobileList[indexPath.row].isFavourite = !mobileList[indexPath.row].isFavourite!
+            //            mobileList[indexPath.row].isFavourite = !mobileList[indexPath.row].isFavourite!
             tableView.deleteRows(at: [indexPath], with: .fade)
-//            if segmentState == 0 {
-//                mobileList.remove(at: indexPath.row)
-//                tableView.deleteRows(at: [indexPath], with: .fade)
-//            } else {
-//                favList.remove(at: indexPath.row)
-//                mobileList[indexPath.row].isFavourite = !mobileList[indexPath.row].isFavourite!
-//                tableView.deleteRows(at: [indexPath], with: .fade)
-//            }
+            //            if segmentState == 0 {
+            //                mobileList.remove(at: indexPath.row)
+            //                tableView.deleteRows(at: [indexPath], with: .fade)
+            //            } else {
+            //                favList.remove(at: indexPath.row)
+            //                mobileList[indexPath.row].isFavourite = !mobileList[indexPath.row].isFavourite!
+            //                tableView.deleteRows(at: [indexPath], with: .fade)
+            //            }
             
         }
     }
@@ -332,5 +346,6 @@ extension ViewController: MobileTableViewCellDelegate {
         //        }
     }
 }
+
 
 

@@ -45,10 +45,16 @@ extension DetailViewController: UICollectionViewDataSource {
         cell.setupUI(mobile: mobileModel, img: imgModel)
         return cell
     }
-
-
 }
 
 extension DetailViewController: UICollectionViewDelegate {
     
 }
+
+extension DetailViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: view.frame.width, height: view.frame.height * 0.35)
+    }
+}
+
+
