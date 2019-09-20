@@ -8,16 +8,16 @@
 
 import UIKit
 
+// TODO : ui img on detail
+//        fav sort
+
 class ViewController: UIViewController {
     
     var mobileListDefault : [MobileModel] = []
     var mobileList : [MobileModel] = []
-//    var favList : NSMutableArray = []
-//    var saveFavList : [MobileModel] = []
     var favList : [MobileModel] = []
     var allMobileList : [MobileModel] = []
     var segmentState : Int = 0
-    //var favDict: [Int: Bool] = [:]
     
     @IBOutlet weak var tableViewMobileList : UITableView!
     @IBOutlet weak var segmentControl: UISegmentedControl!
@@ -40,10 +40,10 @@ class ViewController: UIViewController {
             self.sortRating()
             self.tableViewMobileList.reloadData()
         }))
-        alertController.addAction(UIAlertAction(title: "Default", style: .default, handler: { action in
-            self.sortDefault()
-            self.tableViewMobileList.reloadData()
-        }))
+//        alertController.addAction(UIAlertAction(title: "Default", style: .default, handler: { action in
+//            self.sortDefault()
+//            self.tableViewMobileList.reloadData()
+//        }))
         //alertController.addAction(UIAlertAction(title: "1", style: .default))
         //alertController.addAction(UIAlertAction(title: "2", style: .default))
         //alertController.addAction(UIAlertAction(title: "3", style: .default))
@@ -59,23 +59,23 @@ class ViewController: UIViewController {
         case 0:
             // set all mobileList
             segmentState = 0
-//            mobileList = allMobileList
+            //            mobileList = allMobileList
             //print("show mobile list : \(mobileList)")
             print("ALL")
-//             reloadTable
+            //             reloadTable
             tableViewMobileList.reloadData()
             
         case 1:
-//            allMobileList = mobileList
-//            mobileList = allMobileList
-//            print("show mobile list : \(mobileList)")
+            //            allMobileList = mobileList
+            //            mobileList = allMobileList
+            //            print("show mobile list : \(mobileList)")
             // filter favorite data
             segmentState = 1
             print("favourite")
             filterFav()
             // reloadTable
             tableViewMobileList.reloadData()
-        
+            
         default:
             print("unknown")
         }
@@ -91,18 +91,18 @@ class ViewController: UIViewController {
                 guard let item = item else {
                     return
                 }
-               
+                
                 self?.mobileList = item
                 //print("mobileList : " , self?.mobileList)
                 
-//                for i in 0...(self?.mobileList.count)! - 1{
-//                    if (self?.mobileList[i].isFavourite == nil){
-//                        self?.mobileList[i].isFavourite = false
-//                    }
-//                }
+                //                for i in 0...(self?.mobileList.count)! - 1{
+                //                    if (self?.mobileList[i].isFavourite == nil){
+                //                        self?.mobileList[i].isFavourite = false
+                //                    }
+                //                }
                 self?.allMobileList = self!.mobileList // save mobileList on allMobileList
                 self?.mobileListDefault = self!.mobileList
-//                print("allMobileList : " , self?.allMobileList)
+                //                print("allMobileList : " , self?.allMobileList)
                 self?.tableViewMobileList.reloadData()
             }
         }
@@ -126,46 +126,63 @@ class ViewController: UIViewController {
         
         favList = mobileList.filter { $0.isFavourite! == true }
         
-            print("show favList : \(favList)")
+        print("show favList : \(favList)")
         
-//        print("show mobileList : \(mobileList)")
+        //        print("show mobileList : \(mobileList)")
         
         
         //        print("show favList : \(favList) and show filter :\(mobileList.filter { $0.isFavourite! })")
         
-//        var tempFavList : [MobileModel] = []
-//        for i in 0...mobileList.count - 1 {
-//            if(mobileList[i].isFavourite == true){
-//                tempFavList.append(mobileList[i])
-//                //favList.insert(mobileList[i], at: i)
-//            }
-//            favList = tempFavList
-//        }
+        //        var tempFavList : [MobileModel] = []
+        //        for i in 0...mobileList.count - 1 {
+        //            if(mobileList[i].isFavourite == true){
+        //                tempFavList.append(mobileList[i])
+        //                //favList.insert(mobileList[i], at: i)
+        //            }
+        //            favList = tempFavList
+        //        }
         
         
     }
     
     func sortPriceLowToHigh(){
-        let sortedPrice = mobileList.sorted(by: { $0.price < $1.price })
-        //print("sort price low to high \(sortedPrice)")
-        allMobileList = sortedPrice
+        if segmentState == 0 {
+            let sortedPrice = mobileList.sorted(by: { $0.price < $1.price })
+            //print("sort price low to high \(sortedPrice)")
+            //        allMobileList = sortedPrice
+            mobileList = sortedPrice
+        } else {
+            let sortedPrice2 = favList.sorted(by: { $0.price < $1.price })
+            favList = sortedPrice2
+        }
     }
     
     func sortPriceHighToLow(){
-        let sortedPrice = mobileList.sorted(by: { $0.price > $1.price })
-        //print("sort price high to low \(sortedPrice)")
-        allMobileList = sortedPrice
+        if segmentState == 0{
+            let sortedPrice = mobileList.sorted(by: { $0.price > $1.price })
+            //print("sort price high to low \(sortedPrice)")
+            mobileList = sortedPrice
+        }else{
+            let sortedPrice2 = favList.sorted(by: { $0.price > $1.price })
+            favList = sortedPrice2
+        }
     }
     
     func sortRating() {
-        let sortedPrice = mobileList.sorted(by: { $0.rating > $1.rating })
-        //print("sort rating high to low \(sortedPrice)")
-        allMobileList = sortedPrice
+        if segmentState == 0{
+            let sortedPrice = mobileList.sorted(by: { $0.rating > $1.rating })
+            //print("sort rating high to low \(sortedPrice)")
+            mobileList = sortedPrice
+        }else {
+            let sortedPrice2 = favList.sorted(by: { $0.rating > $1.rating })
+            favList = sortedPrice2
+        }
+        
     }
     
     func sortDefault() {
         //print("sort rating high to low \(sortedPrice)")
-        allMobileList = mobileListDefault
+        mobileList = mobileListDefault
     }
 }
 //        for i in 0...mobileList.count - 1{
@@ -215,39 +232,94 @@ extension ViewController: UITableViewDataSource {
             mobile = favList[indexPath.row]
             //print(mobile.id)
         } else {
-//            mobile = mobileList[indexPath.item]
+            //            mobile = mobileList[indexPath.item]
             mobile = mobileList[indexPath.row]
             //print(mobile.id)
         }
-        cell.setupUI(mobile: mobile, index : indexPath.row)
+        cell.setupUI(mobile: mobile, index : indexPath.row, segmentState : segmentState)
         cell.delegate = self
+        
         return cell
     }
+    
+//    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+//        return true
+//    }
+//
+//    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+//        if (editingStyle == .delete) {
+//            // handle delete (by removing the data from your array and updating the tableview)
+//            if(segmentState == 0){
+//                mobileList.remove(at: indexPath.row)
+//            } else {
+//                favList.remove(at: indexPath.row)
+//            }
+//        }
+//        tableViewMobileList.reloadData()
+//    }
+    
+
 }
+
 
 extension ViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: "showMobileDetail", sender: allMobileList[indexPath.row])
+        if(segmentState == 0){
+            performSegue(withIdentifier: "showMobileDetail", sender: mobileList[indexPath.row])
+        } else {
+            performSegue(withIdentifier: "showMobileDetail", sender: favList[indexPath.row])
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+//        if segmentState == 0 {
+//            return false
+//        } else {
+//            return true
+//        }
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            if segmentState == 0 {
+                mobileList.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .fade)
+            } else {
+                favList.remove(at: indexPath.row)
+                mobileList[indexPath.row].isFavourite = !mobileList[indexPath.row].isFavourite!
+                tableView.deleteRows(at: [indexPath], with: .fade)
+            }
+            
+        }
     }
 }
 
 extension ViewController: MobileTableViewCellDelegate {
-    func didFavouriteButton(cell: Int) {
+    func didFavouriteButton(cell: TableViewCell) {
+        guard let index = tableViewMobileList.indexPath(for: cell) else {
+            return
+        }
+        mobileList[index.row].isFavourite = !mobileList[index.row].isFavourite!
+        //    func didFavouriteButton(cell: Int) {
+        //    mobileList[cell].isFavourite = !mobileList[cell].isFavourite!
+        
         //if let index = tableViewMobileList.indexPath(for: cell) {
         
-
-            //var mobileItem = mobileList.remove(at: index.row)
-            mobileList[cell].isFavourite = !mobileList[cell].isFavourite!
-//            if (mobileItem.isFavourite != true) {
-//                mobileItem.isFavourite = true
-//            } else if (mobileItem.isFavourite == true) {
-//                mobileItem.isFavourite = false
-//            }
-            
-            //let newMobileItem = MobileModel.init(thumbImageURL: mobileItem.thumbImageURL, brand: mobileItem.brand, price: mobileItem.price, description: mobileItem.description, name: mobileItem.name, rating: mobileItem.rating, id: mobileItem.id, isFavourite: mobileItem.isFavourite!)
-            //mobileList.insert(newMobileItem, at: index.row)
-            tableViewMobileList.reloadData()
-//        }
+        
+        //var mobileItem = mobileList.remove(at: index.row)
+        
+        //            mobileList[cell].isFavourite = !mobileList[cell].isFavourite!
+        //            if (mobileItem.isFavourite != true) {
+        //                mobileItem.isFavourite = true
+        //            } else if (mobileItem.isFavourite == true) {
+        //                mobileItem.isFavourite = false
+        //            }
+        
+        //let newMobileItem = MobileModel.init(thumbImageURL: mobileItem.thumbImageURL, brand: mobileItem.brand, price: mobileItem.price, description: mobileItem.description, name: mobileItem.name, rating: mobileItem.rating, id: mobileItem.id, isFavourite: mobileItem.isFavourite!)
+        //mobileList.insert(newMobileItem, at: index.row)
+        tableViewMobileList.reloadData()
+        //        }
     }
 }
 

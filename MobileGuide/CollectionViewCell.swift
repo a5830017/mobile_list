@@ -19,7 +19,7 @@ class CollectionViewCell: UICollectionViewCell {
     func setupUI(mobile : MobileModel, img : ImageModel){
         detailDescription.text = mobile.description
         detailRating.text = "Rating : " + String(mobile.rating)
-        detailPrice.text = "Price : " + String(mobile.price)
+        detailPrice.text = "Price : $" + String(mobile.price)
         mobileImageView.kf.setImage(with: URL(string: img.url))
     }
     
