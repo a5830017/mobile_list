@@ -22,7 +22,7 @@ class CollectionViewCell: UICollectionViewCell {
         detailPrice.text = "Price : $" + String(mobile.price)
 //        mobileImageView.kf.setImage(with: URL(string: img.url))
         let url = URL(string: img.url)
-        let image = UIImage(named: "star selected")
+        let image = UIImage(named: "placeholder_phone")
         mobileImageView.kf.setImage(with: url, placeholder: image)
         
     }
