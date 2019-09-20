@@ -10,6 +10,7 @@ import UIKit
 import Kingfisher
 
 protocol MobileTableViewCellDelegate: class {
+//    func didFavouriteButton(cell: Int)
     func didFavouriteButton(cell: Int)
 }
 
@@ -24,13 +25,14 @@ class TableViewCell: UITableViewCell {
     
     var delegate: MobileTableViewCellDelegate?
     
-    func setupUI(mobile : MobileModel, _ index : Int){
+    func setupUI(mobile : MobileModel, index : Int){
         mobileName.text = mobile.name
         mobileDescription.text = mobile.description
         mobilePrice.text = "Price : $" + String(mobile.price)
         mobileRating.text = "Ratting : " + String(mobile.rating)
         mobileImageView.kf.setImage(with: URL(string: mobile.thumbImageURL))
         favoriteButton.tag = index
+        favoriteButton.isSelected = mobile.isFavourite ?? false
 //        if mobile.isFavourite {
 //            //favoriteButton.imageView =
 //        } else {
@@ -41,13 +43,15 @@ class TableViewCell: UITableViewCell {
     @IBAction func favoriteButton(_ sender: UIButton) {
         
         delegate?.didFavouriteButton(cell: sender.tag)
+        //favoriteButton.isSelected = !favoriteButton.isSelected
 //        if favoriteButton.isSelected == true {
 //            favoriteButton.isSelected = false
 //        } else {
 //            favoriteButton.isSelected = true
 //        }
-        print("tag button ", sender.tag)
-        favoriteButton.isSelected = !favoriteButton.isSelected
+//        print("tag button ", sender.tag)
+//        sender.isSelected = !sender.isSelected
+        
         
 //        if favoriteButton.isSelected != !favoriteButton.isSelected {
 //            favoriteButton.isSelected = true

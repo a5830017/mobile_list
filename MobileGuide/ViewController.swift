@@ -13,7 +13,7 @@ class ViewController: UIViewController {
     var mobileListDefault : [MobileModel] = []
     var mobileList : [MobileModel] = []
 //    var favList : NSMutableArray = []
-    var saveFavList : [MobileModel] = []
+//    var saveFavList : [MobileModel] = []
     var favList : [MobileModel] = []
     var allMobileList : [MobileModel] = []
     var segmentState : Int = 0
@@ -59,13 +59,16 @@ class ViewController: UIViewController {
         case 0:
             // set all mobileList
             segmentState = 0
-            mobileList = allMobileList
+//            mobileList = allMobileList
+            //print("show mobile list : \(mobileList)")
             print("ALL")
 //             reloadTable
             tableViewMobileList.reloadData()
             
         case 1:
 //            allMobileList = mobileList
+//            mobileList = allMobileList
+//            print("show mobile list : \(mobileList)")
             // filter favorite data
             segmentState = 1
             print("favourite")
@@ -120,14 +123,26 @@ class ViewController: UIViewController {
     }
     
     func filterFav() {
-        var tempFavList : [MobileModel] = []
-        for i in 0...mobileList.count - 1 {
-            if(mobileList[i].isFavourite == true){
-                tempFavList.append(mobileList[i])
-                //favList.insert(mobileList[i], at: i)
-            }
-            favList = tempFavList
-        }
+        
+        favList = mobileList.filter { $0.isFavourite! == true }
+        
+            print("show favList : \(favList)")
+        
+//        print("show mobileList : \(mobileList)")
+        
+        
+        //        print("show favList : \(favList) and show filter :\(mobileList.filter { $0.isFavourite! })")
+        
+//        var tempFavList : [MobileModel] = []
+//        for i in 0...mobileList.count - 1 {
+//            if(mobileList[i].isFavourite == true){
+//                tempFavList.append(mobileList[i])
+//                //favList.insert(mobileList[i], at: i)
+//            }
+//            favList = tempFavList
+//        }
+        
+        
     }
     
     func sortPriceLowToHigh(){
@@ -183,7 +198,7 @@ extension ViewController: UITableViewDataSource {
         if (segmentState == 1){
             return favList.isEmpty ? 0 : favList.count
         } else {
-            return mobileList.isEmpty ? 0 : mobileList.count
+            return allMobileList.isEmpty ? 0 : allMobileList.count
         }
         //return mobileList.isEmpty ? 0 : mobileList.count
     }
@@ -193,18 +208,18 @@ extension ViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         //let mobile: MobileModel = mobileList[indexPath.item]
-        var mobile: MobileModel = mobileList[indexPath.item]
+        var mobile: MobileModel = mobileList[indexPath.row]
         if(segmentState == 1){
             //mobile = mobileList[indexPath.item]
-            print(indexPath.item)
-            mobile = favList[indexPath.item]
+            //print(indexPath.row)
+            mobile = favList[indexPath.row]
             //print(mobile.id)
         } else {
 //            mobile = mobileList[indexPath.item]
-            mobile = allMobileList[indexPath.item]
+            mobile = mobileList[indexPath.row]
             //print(mobile.id)
         }
-        cell.setupUI(mobile: mobile, indexPath.item)
+        cell.setupUI(mobile: mobile, index : indexPath.row)
         cell.delegate = self
         return cell
     }
@@ -212,7 +227,7 @@ extension ViewController: UITableViewDataSource {
 
 extension ViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: "showMobileDetail", sender: mobileList[indexPath.item])
+        performSegue(withIdentifier: "showMobileDetail", sender: allMobileList[indexPath.row])
     }
 }
 
